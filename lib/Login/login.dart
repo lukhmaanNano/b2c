@@ -1,7 +1,7 @@
 import 'package:b2c/Login/OTP_Screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
-import '../stylee/common Color.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import '../styles/common Color.dart';
 import '../widgets/buttons.dart';
 
 class Login extends StatefulWidget {
@@ -12,15 +12,32 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final TextEditingController controller = TextEditingController();
+  PhoneNumber number = PhoneNumber(isoCode: 'IN');
+
+  void getPhoneNumber(String phoneNumber) async {
+    PhoneNumber number =
+        await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'US');
+
+    setState(() {
+      this.number = number;
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     const TextStyle text1 = TextStyle(
       color: Colors.grey,
       fontSize: 13,
     );
-
     return Scaffold(
-        backgroundColor: primaryColor,
+        backgroundColor: Colors.white,
         body: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -32,105 +49,146 @@ class _LoginState extends State<Login> {
                     SizedBox(
                       width: 300,
                       height: 150,
-                      child: Image.asset("Assets/b2clogo.png"),
+                      child: Image.asset("Assets/clientlogo.png"),
                     ),
                     Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Column(
                           children: [
-                            IntlPhoneField(
-                              decoration: const InputDecoration(
-                                labelText: "Phone Number",
-                                counter: Offstage(),
-                                prefixStyle: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                            // IntlPhoneField(
+                            //     decoration: InputDecoration(
+                            //       labelText: "Enter Your Mobile Number",
+                            //       // counter: const Offstage(),
+                            //       border: OutlineInputBorder(
+                            //         borderSide: BorderSide(
+                            //             width: 0.1,
+                            //             color: Colors.grey.shade300),
+                            //       ),
+                            //       prefixStyle: const TextStyle(
+                            //         fontSize: 16,
+                            //         fontWeight: FontWeight.bold,
+                            //       ),
+                            //     ),
+                            //     initialCountryCode: 'QA',
+                            //     dropdownIconPosition: IconPosition.trailing,
+                            //     dropdownIcon:
+                            //         const Icon(Icons.expand_more_outlined),
+                            //     dropdownDecoration: BoxDecoration(
+                            //         borderRadius: BorderRadius.circular(8),
+                            //         color: Colors.grey.shade200),
+                            //     flagsButtonMargin:
+                            //         const EdgeInsets.only(left: 1, right: 4)),
+                            InternationalPhoneNumberInput(
+                              textFieldController: controller,
+                              onInputChanged: (PhoneNumber number) {},
+                              onInputValidated: (bool value) {},
+                              selectorConfig: const SelectorConfig(
+                                selectorType:
+                                    PhoneInputSelectorType.BOTTOM_SHEET,
                               ),
+                              autoValidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              ignoreBlank: false,
+                              hintText: 'Enter Your Mobile Number',
+                              // autoValidateMode: AutovalidateMode.disabled,
+                              selectorTextStyle:
+                                  const TextStyle(color: Colors.black),
+                              initialValue: number,
+                              formatInput: true,
+                              keyboardType:
+                                  const TextInputType.numberWithOptions(
+                                      signed: true, decimal: true),
+                              inputBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.grey.shade200),
+                              ),
+                              onSaved: (PhoneNumber number) {},
                             ),
-                            const SizedBox(height: 10),
+                            const SizedBox(height: 30),
                             SizedBox(
                               width: double.infinity,
                               height: 40,
-                              child:
-                                  buttons("Login/Sign up", const OtpScreen()),
+                              child: buttonContainer(
+                                  "Login/Sign up", const OtpScreen(), primary),
                             ),
                             const SizedBox(height: 20),
-                            SizedBox(
-                              width: double.infinity,
-                              height: 40,
-                              child: OutlinedButton(
-                                  onPressed: () {},
-                                  style: OutlinedButton.styleFrom(
-                                    side: BorderSide(
-                                        width: 1.0,
-                                        color: Colors.blueAccent.shade400),
-                                  ),
-                                  child: const Text(
-                                    "Continue Without Account",
-                                    style: TextStyle(color: Colors.grey),
-                                  )),
+                            InkWell(
+                              onTap: () {},
+                              child: Container(
+                                width: double.infinity,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    border: Border.all(
+                                      color: primary,
+                                    )),
+                                child: const Center(
+                                    child: Text(
+                                  "Continue without account",
+                                  style: TextStyle(color: Colors.grey),
+                                )),
+                              ),
                             ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 15.0),
-                              child: SizedBox(
-                                  height: 24,
-                                  child: Text("-OR-", style: text1)),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Container(
-                                  width: 160,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(color: Colors.grey)),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Image.asset(
-                                        "Assets/fb.png",
-                                        width: 20,
-                                        height: 20,
-                                      ),
-                                      const Text("Sign In With Facebook",
-                                          style: TextStyle(
-                                            fontSize: 12,
-                                            fontWeight: FontWeight.w400,
-                                          )),
-                                    ],
-                                  ),
-                                ),
-                                const SizedBox(width: 5),
-                                Container(
-                                  width: 160,
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      border: Border.all(color: Colors.grey)),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Image.asset(
-                                        "Assets/google.png",
-                                        width: 20,
-                                        height: 20,
-                                      ),
-                                      const Text(
-                                        "Sign In With Google",
-                                        style: TextStyle(
-                                          fontSize: 12,
-                                          fontWeight: FontWeight.w400,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
+                            // const Padding(
+                            //   padding: EdgeInsets.symmetric(vertical: 15.0),
+                            //   child: SizedBox(
+                            //       height: 24,
+                            //       child: Text("-OR-", style: text1)),
+                            // ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            //   children: [
+                            //     Container(
+                            //       width: 160,
+                            //       height: 40,
+                            //       decoration: BoxDecoration(
+                            //           borderRadius: BorderRadius.circular(20),
+                            //           border: Border.all(color: Colors.grey)),
+                            //       child: Row(
+                            //         mainAxisAlignment:
+                            //             MainAxisAlignment.spaceAround,
+                            //         children: [
+                            //           Image.asset(
+                            //             "Assets/fb.png",
+                            //             width: 20,
+                            //             height: 20,
+                            //           ),
+                            //           const Text("Sign In With Facebook",
+                            //               style: TextStyle(
+                            //                 fontSize: 12,
+                            //                 fontWeight: FontWeight.w400,
+                            //               )),
+                            //         ],
+                            //       ),
+                            //     ),
+                            //     const SizedBox(width: 5),
+                            //     Container(
+                            //       width: 160,
+                            //        40,
+                            //       decoration: BoxDecoration(
+                            //           borderRadius: BorderRadius.circular(20),
+                            //           border: Border.all(color: Colors.grey)),
+                            //       child: Row(
+                            //         mainAxisAlignment:
+                            //             MainAxisAlignment.spaceAround,
+                            //         children: [
+                            //           Image.asset(
+                            //             "Assets/google.png",
+                            //             width: 20,
+                            //             height: 20,
+                            //           ),
+                            //           const Text(
+                            //             "Sign In With Google",
+                            //             style: TextStyle(
+                            //               fontSize: 12,
+                            //               fontWeight: FontWeight.w400,
+                            //             ),
+                            //           ),
+                            //         ],
+                            //       ),
+                            //     )
+                            //   ],
+                            // ),
                           ],
                         )),
                     const SizedBox(height: 10),
@@ -199,16 +257,20 @@ Future languageSheet(context) {
       context: context,
       builder: (context) {
         return SizedBox(
-          height: 250,
+          height: 200,
           child: Column(
             // mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
               const Text(
                 "Select Language",
-                style: commonLogin,
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black87,
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -216,7 +278,7 @@ Future languageSheet(context) {
                   Column(
                     children: [
                       const SizedBox(
-                        height: 50,
+                        height: 30,
                       ),
                       InkWell(
                         onTap: () {},

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../stylee/common Color.dart';
+import '../styles/common Color.dart';
 
 ScaffoldFeatureController<SnackBar, SnackBarClosedReason> toaster(
     context, String message) {

@@ -1,11 +1,12 @@
 import 'package:b2c/dashboard.dart';
-import 'package:b2c/stylee/CommonSize.dart';
+import 'package:b2c/home.dart';
+import 'package:b2c/styles/CommonSize.dart';
 import 'package:b2c/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:lottie/lottie.dart';
-import '../stylee/CommonTextStyle.dart';
-import '../stylee/common Color.dart';
+import '../styles/CommonTextStyle.dart';
+import '../styles/common Color.dart';
 
 class OtpScreen extends StatefulWidget {
   const OtpScreen({Key? key}) : super(key: key);
@@ -18,11 +19,11 @@ class _OtpScreenState extends State<OtpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryColor,
+      backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const SizedBox(
               height: 50,
@@ -60,9 +61,12 @@ class _OtpScreenState extends State<OtpScreen> {
               height: 30,
             ),
             SizedBox(
-                width: double.infinity,
-                height: 40,
-                child: buttons("Login", const Dashboard())),
+              width: double.infinity,
+              height: 40,
+              child: buttonContainer(
+                  "Login", const HomeScreen(), primary),
+            ),
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -90,16 +94,17 @@ class _OtpScreenState extends State<OtpScreen> {
                 ),
               ],
             ),
-            const SizedBox(
-              height: 30,
+             SizedBox(
+              // height: displayHeight(context) * 1,
+              child: Image.asset("Assets/OTPScreen.png"),
             ),
-            Lottie.asset(
-              height: 200,
-              'Assets/json/otp.json',
-              repeat: true,
-              reverse: true,
-              animate: true,
-            ),
+            // Lottie.asset(
+            //   height: 200,
+            //   'Assets/json/otp.json',
+            //   repeat: true,
+            //   reverse: true,
+            //   animate: true,
+            // ),
             const SizedBox(
               height: 20,
             ),
@@ -114,16 +119,16 @@ class _OtpScreenState extends State<OtpScreen> {
             const SizedBox(
               height: 20,
             ),
-            Stack(
-              children: [
-                Align(
-                    alignment: Alignment.bottomRight,
-                    child: SizedBox(
-                        width: 180,
-                        height: 100,
-                        child: Image.asset("Assets/b2clogo.png")))
-              ],
-            ),
+            // Stack(
+            //   children: [
+            //     Align(
+            //         alignment: Alignment.bottomRight,
+            //         child: SizedBox(
+            //             width: 180,
+            //             height: 100,
+            //             child: Image.asset("Assets/b2clogo.png")))
+            //   ],
+            // ),
           ],
         ),
       ),

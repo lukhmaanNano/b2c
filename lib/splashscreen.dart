@@ -1,7 +1,5 @@
 import 'dart:async';
 import 'package:b2c/Login/login.dart';
-import 'package:b2c/stylee/Responsive.dart';
-import 'package:lottie/lottie.dart';
 import 'package:flutter/material.dart';
 
 class Splashscreen extends StatefulWidget {
@@ -33,7 +31,7 @@ class _SplashScreenState extends State<Splashscreen> {
         child: SizedBox(
           width: 200,
           height: 200,
-          child: Image.asset("Assets/b2clogo.png"),
+          child: Image.asset("Assets/clientlogo.png"),
         ),
       ),
     );

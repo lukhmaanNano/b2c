@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:b2c/stylee/CommonSize.dart';
-import 'package:b2c/stylee/CommonTextStyle.dart';
-import 'package:b2c/stylee/common%20Color.dart';
+import 'package:b2c/styles/CommonSize.dart';
+import 'package:b2c/styles/CommonTextStyle.dart';
+import 'package:b2c/styles/common%20Color.dart';
 import 'package:b2c/widgets/development.dart';
 import 'package:floating_bottom_navigation_bar/floating_bottom_navigation_bar.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +21,7 @@ class Dashboard extends StatefulWidget {
 
 class _DashboardState extends State<Dashboard> {
   final ScrollController scrollControl = ScrollController();
+  bool bottomSheet = false;
   int _index = 2;
   List data1 = [
     {'Name': 'Air Conditioner', 'img': 'Assets/ac.jpg'},
@@ -30,14 +31,14 @@ class _DashboardState extends State<Dashboard> {
     {'Name': 'Furniture Care', 'img': 'Assets/furniture.jpg'},
   ];
   List data = [
-    {'Name': 'Plumbing', 'img': 'Assets/img1.png'},
-    {'Name': 'Air Conditioner', 'img': 'Assets/img2.png'},
-    {'Name': 'Electrical Work', 'img': 'Assets/img3.png'},
-    {'Name': 'Painting', 'img': 'Assets/img4.png'},
-    {'Name': 'Cleaning', 'img': 'Assets/img5.png'},
-    {'Name': 'Pest Control', 'img': 'Assets/img6.png'},
-    {'Name': 'Furniture Care', 'img': 'Assets/img7.png'},
-    {'Name': 'Lighting', 'img': 'Assets/img8.png'},
+    {'Name': 'Plumbing', 'img': 'Assets/img1.png', 'off': 0},
+    {'Name': 'Air Conditioner', 'img': 'Assets/img2.png', 'off': 0},
+    {'Name': 'Electrical Work', 'img': 'Assets/img3.png', 'off': 20},
+    {'Name': 'Painting', 'img': 'Assets/img4.png', 'off': 10},
+    {'Name': 'Cleaning', 'img': 'Assets/img5.png', 'off': 0},
+    {'Name': 'Pest Control', 'img': 'Assets/img6.png', 'off': 0},
+    {'Name': 'Furniture Care', 'img': 'Assets/img7.png', 'off': 0},
+    {'Name': 'Lighting', 'img': 'Assets/img8.png', 'off': 10},
   ];
   List searchHint = [
     'Plumbing',
@@ -110,14 +111,15 @@ class _DashboardState extends State<Dashboard> {
                               children: [
                                 InkWell(
                                   onTap: () {
+                                    bottomSheet = !bottomSheet;
                                     locationSheet(context);
                                   },
-                                  child: Column(
+                                  child: const Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        children: const [
+                                        children: [
                                           Icon(
                                             Icons.location_on,
                                             color: Colors.white,
@@ -132,7 +134,7 @@ class _DashboardState extends State<Dashboard> {
                                         ],
                                       ),
                                       Row(
-                                        children: const [
+                                        children: [
                                           Padding(
                                             padding: EdgeInsets.only(left: 5.0),
                                             child: Text('Nanosoft',
@@ -159,8 +161,8 @@ class _DashboardState extends State<Dashboard> {
                                     ],
                                   ),
                                 ),
-                                Row(
-                                  children: const [
+                                const Row(
+                                  children: [
                                     Icon(
                                       Icons.notifications_active_rounded,
                                       color: Colors.white,
@@ -288,38 +290,49 @@ class _DashboardState extends State<Dashboard> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
-                          color: const Color(0xFFade8f4).withOpacity(0.45),
+                          color: Colors.white,
                           elevation: 0,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              ClipRRect(
-                                  borderRadius: const BorderRadius.only(
-                                    topRight: Radius.circular(10.0),
-                                    topLeft: Radius.circular(10.0),
-                                  ),
+                          child: Stack(
+                              alignment: Alignment.bottomCenter,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
                                   child: SizedBox(
                                     width: displayWidth(context) * 0.33,
-                                    height: displayHeight(context) * 0.08,
-                                    child: Image.asset(
-                                      data1[index]['img'],
-                                      fit: BoxFit.fill,
+                                    height: displayHeight(context) * 0.10,
+                                    child: ShaderMask(
+                                      shaderCallback: (Rect bounds) {
+                                        return LinearGradient(
+                                          begin: Alignment.bottomCenter,
+                                          end: Alignment.center,
+                                          colors: [
+                                            Colors.black87.withOpacity(0.3),
+                                            Colors.black87.withOpacity(0.3),
+                                          ],
+                                          stops: const [1.20, 0.98],
+                                        ).createShader(bounds);
+                                      },
+                                      blendMode: BlendMode.darken,
+                                      child: Image.asset(
+                                        data1[index]['img'],
+                                        fit: BoxFit.fill,
+                                      ),
                                     ),
-                                  )),
-                              const SizedBox(height: 3),
-                              Text(data1[index]['Name']),
-                            ],
-                          ));
+                                  ),
+                                ),
+                                Text(data1[index]['Name'],
+                                    style: cardTitleWhite),
+                              ]));
                     },
                   ),
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+            const Padding(
+              padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
+                children: [
                   Text('Book Your Home Service', style: cardTitle),
                   Text('See All', style: moreText),
                 ],
@@ -349,25 +362,52 @@ class _DashboardState extends State<Dashboard> {
                               ),
                               // color: const Color(0xFFade8f4).withOpacity(0.5),
                               color: Colors.white,
-                              shadowColor: Colors.grey.shade100,
-                              elevation: 1,
+                              shadowColor: Colors.grey.shade50,
+                              elevation: 0.5,
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.end,
-                                  children: [
-                                    Image.asset(
-                                      data[index]['img'],
-                                      height: 25,
-                                      width: 25,
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Text('${data[index]['Name']}',
-                                        style: const TextStyle(
-                                            fontSize: 12,
-                                            overflow: TextOverflow.ellipsis))
-                                  ],
-                                ),
+                                padding: const EdgeInsets.all(4.0),
+                                child: Stack(
+                                    alignment: Alignment.topRight,
+                                    children: [
+                                      Center(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            Image.asset(
+                                              data[index]['img'],
+                                              height: 30,
+                                              width: 30,
+                                            ),
+                                            const SizedBox(height: 10),
+                                            Text('${data[index]['Name']}',
+                                                style: const TextStyle(
+                                                    fontSize: 12,
+                                                    overflow:
+                                                        TextOverflow.ellipsis))
+                                          ],
+                                        ),
+                                      ),
+                                      if (data[index]['off'] >= 1)
+                                        Container(
+                                          height: 18,
+                                          width: 45,
+                                          decoration: BoxDecoration(
+                                              color: red,
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(4.0),
+                                            child: Text(
+                                                '${data[index]['off']}% OFF',
+                                                textAlign: TextAlign.center,
+                                                style: const TextStyle(
+                                                  fontSize: 8,
+                                                  color: Colors.white,
+                                                )),
+                                          ),
+                                        )
+                                    ]),
                               )),
                         );
                       })),
@@ -403,195 +443,197 @@ class _DashboardState extends State<Dashboard> {
       context: context,
       isScrollControlled: true,
       builder: (context) {
-        return Wrap(children: [
-          Padding(
-            padding: const EdgeInsets.only(
-                left: 15.0, right: 18.0, top: 10.0, bottom: 5.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
+        return Stack(clipBehavior: Clip.none, children: [
+          Wrap(children: [
+            const Padding(
+              padding: EdgeInsets.only(
+                  left: 15.0, right: 18.0, top: 10.0, bottom: 5.0),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Text(
                   'Choose a location',
                   style: headerText,
                 ),
-                IconButton(
-                  color: primary,
-                  highlightColor: Colors.transparent,
-                  splashColor: Colors.transparent,
-                  icon: const Icon(Icons.close_rounded),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                )
-              ],
+              ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Text(
-                'Chosen location is reflected in the list of available services',
-                style: TextStyle(
-                    color: Colors.grey.shade400,
-                    fontWeight: FontWeight.w300,
-                    fontSize: 14,
-                    wordSpacing: 2)),
-          ),
-          Divider(
-              indent: 10,
-              endIndent: 10,
-              thickness: 0.3,
-              color: Colors.grey.shade300),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 13.0, vertical: 12),
-            child: Text(
-              'Recently serviced location',
-              style: headerText,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(
+                  'Chosen location is reflected in the list of available services',
+                  style: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 14,
+                      wordSpacing: 2)),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(
-                    width: displayWidth(context) * 0.41,
-                    height: 100,
-                    child: Card(
-                        elevation: 0,
-                        color: primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 5.0),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    height: 20,
-                                    width: 20,
-                                    color: Colors.white,
-                                    'Assets/home.svg',
-                                  ),
-                                  const SizedBox(width: 5),
-                                  const Text('Nanosoft', style: primaryTest)
-                                ],
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 5.0),
-                              child: Text('P.O.Box :40072,E1-102',
-                                  style: primaryTest),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 5.0),
-                              child: Text('Doha,Qatar', style: primaryTest),
-                            )
-                          ],
-                        ))),
-                SizedBox(
-                    width: displayWidth(context) * 0.41,
-                    height: 100,
-                    child: Card(
-                        elevation: 0,
-                        color: Colors.white,
-                        shape: RoundedRectangleBorder(
-                          side: const BorderSide(
-                            color: primary,
-                          ),
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 5.0),
-                              child: Row(
-                                children: [
-                                  SvgPicture.asset(
-                                    height: 20,
-                                    width: 20,
-                                    color: primary,
-                                    'Assets/home.svg',
-                                    allowDrawingOutsideViewBox: true,
-                                  ),
-                                  const SizedBox(width: 5),
-                                  const Text('Nanosoft', style: secondaryTest)
-                                ],
-                              ),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 5.0),
-                              child: Text('P.O.Box :40072,E1-102',
-                                  style: secondaryTest),
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 5.0),
-                              child: Text('Doha,Qatar', style: secondaryTest),
-                            )
-                          ],
-                        ))),
-                FloatingActionButton.small(
-                    foregroundColor: Colors.white,
-                    backgroundColor: primary,
-                    onPressed: () {},
-                    child: const Icon(Icons.control_point_rounded))
-              ],
+            Divider(
+                indent: 10,
+                endIndent: 10,
+                thickness: 0.3,
+                color: Colors.grey.shade300),
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 13.0, vertical: 12),
+              child: Text(
+                'Recently serviced location',
+                style: headerText,
+              ),
             ),
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 13.0, vertical: 12),
-            child: Text(
-              'New location',
-              style: headerText,
-            ),
-          ),
-          SizedBox(
-            height: 190,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 13.0),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
-                        Icon(Icons.gps_fixed_rounded, color: primary),
-                        Icon(Icons.location_on_rounded, color: primary),
-                        Icon(Icons.location_on_rounded, color: primary),
-                        Icon(Icons.location_on_rounded, color: primary),
-                        Icon(Icons.location_on_rounded, color: primary),
-                        Icon(Icons.location_on_rounded, color: primary),
-                        Icon(Icons.location_on_rounded, color: primary),
-                      ]),
-                  const SizedBox(width: 15),
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: const [
-                        Text('Current Location', style: locationStyle),
-                        Text('Al Rayyan', style: locationStyle),
-                        Text('Al Wakrah', style: locationStyle),
-                        Text('Al khor', style: locationStyle),
-                        Text('Al-Shahaniya', style: locationStyle),
-                        Text('Al-Ruways', style: locationStyle),
-                        Text('Dukhan', style: locationStyle),
-                      ])
+                  SizedBox(
+                      width: displayWidth(context) * 0.41,
+                      height: 100,
+                      child: Card(
+                          elevation: 0,
+                          color: primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 5.0),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      height: 20,
+                                      width: 20,
+                                      color: Colors.white,
+                                      'Assets/home.svg',
+                                    ),
+                                    const SizedBox(width: 5),
+                                    const Text('Nanosoft', style: primaryTest)
+                                  ],
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 5.0),
+                                child: Text('P.O.Box :40072,E1-102',
+                                    style: primaryTest),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 5.0),
+                                child: Text('Doha,Qatar', style: primaryTest),
+                              )
+                            ],
+                          ))),
+                  SizedBox(
+                      width: displayWidth(context) * 0.41,
+                      height: 100,
+                      child: Card(
+                          elevation: 0,
+                          color: Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                              color: primary,
+                            ),
+                            borderRadius: BorderRadius.circular(20.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 5.0),
+                                child: Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                      height: 20,
+                                      width: 20,
+                                      color: primary,
+                                      'Assets/home.svg',
+                                      allowDrawingOutsideViewBox: true,
+                                    ),
+                                    const SizedBox(width: 5),
+                                    const Text('Nanosoft',
+                                        style: secondaryLight)
+                                  ],
+                                ),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 5.0),
+                                child: Text('P.O.Box :40072,E1-102',
+                                    style: secondaryLight),
+                              ),
+                              const Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 5.0),
+                                child:
+                                    Text('Doha,Qatar', style: secondaryLight),
+                              )
+                            ],
+                          ))),
+                  FloatingActionButton.small(
+                      foregroundColor: Colors.white,
+                      backgroundColor: primary,
+                      onPressed: () {},
+                      child: const Icon(Icons.control_point_rounded))
                 ],
               ),
             ),
-          ),
-          const SizedBox(height: 30)
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 13.0, vertical: 12),
+              child: Text(
+                'New location',
+                style: headerText,
+              ),
+            ),
+            const SizedBox(
+              height: 190,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 13.0),
+                child: Row(
+                  children: [
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Icon(Icons.gps_fixed_rounded, color: primary),
+                          Icon(Icons.location_on_rounded, color: primary),
+                          Icon(Icons.location_on_rounded, color: primary),
+                          Icon(Icons.location_on_rounded, color: primary),
+                          Icon(Icons.location_on_rounded, color: primary),
+                          Icon(Icons.location_on_rounded, color: primary),
+                          Icon(Icons.location_on_rounded, color: primary),
+                        ]),
+                    SizedBox(width: 15),
+                    Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Current Location', style: locationStyle),
+                          Text('Al Rayyan', style: locationStyle),
+                          Text('Al Wakrah', style: locationStyle),
+                          Text('Al khor', style: locationStyle),
+                          Text('Al-Shahaniya', style: locationStyle),
+                          Text('Al-Ruways', style: locationStyle),
+                          Text('Dukhan', style: locationStyle),
+                        ])
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 30)
+          ]),
+          Positioned(
+            top: -70,
+            right: 0,
+            left: 0,
+            child: FloatingActionButton.small(
+                backgroundColor: Colors.white,
+                foregroundColor: primary,
+                onPressed: () => Navigator.pop(context),
+                child: const Icon(Icons.close_rounded)),
+          )
         ]);
       },
     );

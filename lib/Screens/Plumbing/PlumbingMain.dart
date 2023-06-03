@@ -1,8 +1,8 @@
-import 'package:b2c/stylee/common%20Color.dart';
+import 'package:b2c/styles/common%20Color.dart';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import '../../stylee/CommonSize.dart';
-import '../../stylee/CommonTextStyle.dart';
+import '../../styles/CommonSize.dart';
+import '../../styles/CommonTextStyle.dart';
 import '../../widgets/divider.dart';
 
 class PlumbingMain extends StatefulWidget {
@@ -350,13 +350,20 @@ class _PlumbingMainState extends State<PlumbingMain> {
           Directionality(
             textDirection: TextDirection.rtl,
             child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(180, 45),
+                  maximumSize: const Size(180, 45),
+                ),
                 onPressed: () {
                   setState(() {
                     page = 2;
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios_rounded),
-                label: const Text('Proceed')),
+                label: const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Text('Proceed'),
+                )),
           )
         ],
       ),
@@ -365,7 +372,7 @@ class _PlumbingMainState extends State<PlumbingMain> {
 
   Widget step2() {
     return SizedBox(
-      height: displayHeight(context) * 0.73,
+      height: displayHeight(context) * 0.72,
       child: Center(
         child: ElevatedButton.icon(
             onPressed: () {
@@ -404,13 +411,20 @@ class _PlumbingMainState extends State<PlumbingMain> {
         Directionality(
           textDirection: ui.TextDirection.rtl,
           child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(180, 45),
+                maximumSize: const Size(180, 45),
+              ),
               onPressed: () {
                 setState(() {
                   page = 3;
                 });
               },
               icon: const Icon(Icons.arrow_back_ios_rounded),
-              label: const Text('Proceed')),
+              label: const Padding(
+                padding: EdgeInsets.only(right: 8.0),
+                child: Text('Proceed'),
+              )),
         ),
       ],
     );
@@ -418,7 +432,7 @@ class _PlumbingMainState extends State<PlumbingMain> {
 
   Widget step3() {
     return SizedBox(
-      height: displayHeight(context) * 0.74,
+      height: displayHeight(context) * 0.72,
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -441,38 +455,60 @@ class _PlumbingMainState extends State<PlumbingMain> {
               ],
             ),
             dividerWidget(Colors.grey.shade300),
-            SizedBox(child: Text("Added Service", style: styleFont)),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: SizedBox(
-                height: displayWidth(context) * 0.52,
-                child: ListView.builder(
-                    itemCount: data.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        height: displayWidth(context) * 0.1,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: SizedBox(
-                                height: 20,
-                                child: Checkbox(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5)),
-                                    value: checkBox,
-                                    onChanged: (value) {
-                                      setState(() {
-                                        checkBox = !checkBox;
-                                      });
-                                    }),
+              child: Container(
+                decoration: BoxDecoration(
+                    boxShadow: const [
+                      BoxShadow(
+                        offset: Offset(0, 0),
+                        spreadRadius: -11,
+                        blurRadius: 11,
+                        color: Color.fromRGBO(0, 0, 0, 1),
+                      )
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0)),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 6.0),
+                      child: Text("Added Service", style: styleFont),
+                    ),
+                    SizedBox(
+                      height: displayWidth(context) * 0.52,
+                      child: ListView.builder(
+                          itemCount: data.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: displayWidth(context) * 0.1,
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(right: 8.0),
+                                    child: SizedBox(
+                                      height: 20,
+                                      child: Checkbox(
+                                          shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5)),
+                                          value: checkBox,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              checkBox = !checkBox;
+                                            });
+                                          }),
+                                    ),
+                                  ),
+                                  Text(data[index]["title"],
+                                      style: serviceCount)
+                                ],
                               ),
-                            ),
-                            Text(data[index]["title"], style: serviceCount)
-                          ],
-                        ),
-                      );
-                    }),
+                            );
+                          }),
+                    ),
+                  ],
+                ),
               ),
             ),
             Card(
@@ -573,6 +609,10 @@ class _PlumbingMainState extends State<PlumbingMain> {
         Directionality(
           textDirection: ui.TextDirection.rtl,
           child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: const Size(180, 45),
+                maximumSize: const Size(180, 45),
+              ),
               onPressed: () {
                 setState(() {
                   page = 3;

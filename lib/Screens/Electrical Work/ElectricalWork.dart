@@ -1,10 +1,13 @@
+import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 import 'dart:ui' as ui;
-import '../../stylee/CommonSize.dart';
-import '../../stylee/CommonTextStyle.dart';
-import '../../stylee/common Color.dart';
+import '../../Controller/loaderController.dart';
+import '../../styles/CommonSize.dart';
+import '../../styles/CommonTextStyle.dart';
+import '../../styles/common Color.dart';
+import '../../widgets/Shimmer.dart';
 import '../../widgets/divider.dart';
 
 class ElectricalWork extends StatefulWidget {
@@ -15,6 +18,7 @@ class ElectricalWork extends StatefulWidget {
 }
 
 class _ElectricalWorkState extends State<ElectricalWork> {
+  final LoaderController loaderController = Get.put(LoaderController());
   int page = 1, dateSelected = 0;
   List data = [
     {
@@ -89,6 +93,7 @@ class _ElectricalWorkState extends State<ElectricalWork> {
   @override
   void initState() {
     super.initState();
+    loaderController.loaderFunc();
   }
 
   @override
@@ -246,97 +251,145 @@ class _ElectricalWorkState extends State<ElectricalWork> {
             padding: const EdgeInsets.only(top: 8.0, bottom: 8.0, left: 15.0),
             child: Text('Choose your services', style: styleFont),
           ),
-          SizedBox(
-            height: displayHeight(context) * 0.61,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: data.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: displayHeight(context) * 0.12,
-                      child: Card(
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
-                        color: Colors.grey.shade100,
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0, vertical: 5.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(8.0),
-                                child: SizedBox(
-                                    height: displayHeight(context) * 0.11,
-                                    width: displayWidth(context) * 0.25,
-                                    child: Image.asset(
-                                      data[index]['img'],
-                                      fit: BoxFit.fill,
-                                    )),
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.only(left: 12.0, top: 6.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(data[index]['title'],
-                                      style: cardCardHeader),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 6.0),
-                                    child: Text(
-                                      data[index]['subtitle'],
-                                      style: const TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w300,
+          InkWell(
+            onTap: (){
+              bottomSheet1(context);
+            },
+            child: SizedBox(
+              height: displayHeight(context) * 0.61,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: data.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        height: displayHeight(context) * 0.12,
+                        child: Card(
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5.0)),
+                          color: Colors.grey.shade100,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(left: 12.0, top: 6.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(data[index]['title'],
+                                        style: cardCardHeader),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 6.0),
+                                      child: Text(
+                                        data[index]['subtitle'],
+                                        style: const TextStyle(
+                                          fontSize: 12,
+                                          fontWeight: FontWeight.w300,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(
-                                    width: displayWidth(context) * 0.60,
-                                    child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: [
-                                        IconButton(
-                                            onPressed: () {
-                                              setState(() => {
-                                                    data[index]['count'] =
-                                                        data[index]['count'] -
-                                                            1,
-                                                  });
-                                            },
-                                            icon: const Icon(Icons.remove,
-                                                size: 14)),
-                                        Text(
-                                            data[index]['count'] <= 0
-                                                ? 'ADD'
-                                                : data[index]['count']
-                                                    .toString(),
-                                            style: add1),
-                                        IconButton(
-                                            onPressed: () {
-                                              setState(() => {
-                                                    data[index]['count'] =
-                                                        data[index]['count'] +
-                                                            1,
-                                                  });
-                                            },
-                                            icon: const Icon(Icons.add,
-                                                size: 14)),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 8.0, vertical: 5.0),
+                                child: SizedBox(
+                                  width: 100,
+                                  height: displayHeight(context) * 0.13,
+                                  child:
+                                      Stack(clipBehavior: Clip.none, children: [
+                                    SizedBox(
+                                      height: displayHeight(context) * 0.08,
+                                      width: displayWidth(context) * 0.25,
+                                      child: Obx(() =>
+                                          loaderController.loader.value == true
+                                              ? shimmer(
+                                                  double.infinity,
+                                                )
+                                              : ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8.0),
+                                                  child: Image.asset(
+                                                    data[index]['img'],
+                                                    fit: BoxFit.fill,
+                                                  ),
+                                                )),
+                                    ),
+                                    Positioned(
+                                      bottom: -5,
+                                      child: Card(
+                                        color: Colors.white,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.0),
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceAround,
+                                            children: [
+                                              InkWell(
+                                                onTap: () => {
+                                                  setState(() => {
+                                                        data[index]['count'] =
+                                                            data[index]['count'] -
+                                                                1,
+                                                      })
+                                                },
+                                                child: const Icon(
+                                                  Icons.remove,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 4.0),
+                                                child: SizedBox(
+                                                  width: displayWidth(context) *
+                                                      0.06,
+                                                  child: Text(
+                                                      data[index]['count'] <= 0
+                                                          ? 'ADD'
+                                                          : data[index]['count']
+                                                              .toString(),
+                                                      textAlign: TextAlign.center,
+                                                      style: add1),
+                                                ),
+                                              ),
+                                              InkWell(
+                                                onTap: () => {
+                                                  setState(() => {
+                                                        data[index]['count'] =
+                                                            data[index]['count'] +
+                                                                1,
+                                                      })
+                                                },
+                                                child: const Icon(
+                                                  Icons.add,
+                                                  size: 20,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ]),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    }),
+              ),
             ),
           )
         ]),
@@ -346,9 +399,9 @@ class _ElectricalWorkState extends State<ElectricalWork> {
 
   Widget step1Button() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,13 +414,20 @@ class _ElectricalWorkState extends State<ElectricalWork> {
           Directionality(
             textDirection: ui.TextDirection.rtl,
             child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(180, 45),
+                  maximumSize: const Size(180, 45),
+                ),
                 onPressed: () {
                   setState(() {
                     page = 2;
                   });
                 },
                 icon: const Icon(Icons.arrow_back_ios_rounded),
-                label: const Text('Proceed')),
+                label: const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Text('Proceed'),
+                )),
           )
         ],
       ),
@@ -376,7 +436,7 @@ class _ElectricalWorkState extends State<ElectricalWork> {
 
   Widget step2() {
     return SizedBox(
-      height: displayHeight(context) * 0.73,
+      height: displayHeight(context) * 0.72,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10.0),
         child: Column(
@@ -525,39 +585,48 @@ class _ElectricalWorkState extends State<ElectricalWork> {
   }
 
   Widget step2Button() {
-    return Row(
-      // mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        // ElevatedButton.icon(
-        //     onPressed: () {
-        //       setState(() {
-        //         page = 1;
-        //       });
-        //     },
-        //     icon: const Icon(Icons.arrow_back_ios_rounded),
-        //     label: const Text('back')),
-        // const SizedBox(width: 20),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Estimated Bill', style: tips),
-            Text("QAR 148 -209", style: add),
-            const Text('Material Not Included', style: tips),
-          ],
-        ),
-        Directionality(
-          textDirection: ui.TextDirection.rtl,
-          child: ElevatedButton.icon(
-              onPressed: () {
-                setState(() {
-                  page = 3;
-                });
-              },
-              icon: const Icon(Icons.arrow_back_ios_rounded),
-              label: const Text('Proceed')),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          // ElevatedButton.icon(
+          //     onPressed: () {
+          //       setState(() {
+          //         page = 1;
+          //       });
+          //     },
+          //     icon: const Icon(Icons.arrow_back_ios_rounded),
+          //     label: const Text('back')),
+          // const SizedBox(width: 20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Estimated Bill', style: tips),
+              Text("QAR 148 -209", style: add),
+              const Text('Material Not Included', style: tips),
+            ],
+          ),
+          Directionality(
+            textDirection: ui.TextDirection.rtl,
+            child: ElevatedButton.icon(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(180, 45),
+                  maximumSize: const Size(180, 45),
+                ),
+                onPressed: () {
+                  setState(() {
+                    page = 3;
+                  });
+                },
+                icon: const Icon(Icons.arrow_back_ios_rounded),
+                label: const Padding(
+                  padding: EdgeInsets.only(right: 8.0),
+                  child: Text('Proceed'),
+                )),
+          ),
+        ],
+      ),
     );
   }
 
@@ -786,28 +855,282 @@ class _ElectricalWorkState extends State<ElectricalWork> {
   }
 
   Widget step3Button() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Text('Estimated Bill', style: tips),
-            Text("QAR 148 -209", style: add),
-            const Text('Material Not Included', style: tips),
-          ],
-        ),
-        Directionality(
-          textDirection: ui.TextDirection.rtl,
-          child: ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  page = 1;
-                });
-              },
-              child: const Text('Book your service')),
-        ),
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 14.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text('Estimated Bill', style: tips),
+              Text("QAR 148 -209", style: add),
+              const Text('Material Not Included', style: tips),
+            ],
+          ),
+          Directionality(
+            textDirection: ui.TextDirection.rtl,
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(180, 45),
+                  maximumSize: const Size(180, 45),
+                ),
+                onPressed: () {
+                  setState(() {
+                    page = 1;
+                  });
+                },
+                child: Text('Book your service')),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future bottomSheet1(context) {
+    return showModalBottomSheet(
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40.0), topRight: Radius.circular(40.0))),
+      context: context,
+      isScrollControlled: true,
+      builder: (context) {
+        return Stack(clipBehavior: Clip.none, children: [
+          SizedBox(
+            height: displayHeight(context) * 0.75,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.only(
+                              topLeft: Radius.circular(40.0),
+                              topRight: Radius.circular(40.0)),
+                          child: SizedBox(
+                              height: displayHeight(context) * 0.25,
+                              width: double.infinity,
+                          child: Image.asset("Assets/Image1.png",fit:BoxFit.fill,),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child:
+                          Text('Wire & network Extension ', style: cardTitle),
+                        ),
+                        Divider(
+                            indent: 10,
+                            endIndent: 10,
+                            thickness: 0.3,
+                            color: Colors.grey.shade300),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Column(
+                            children: [
+                              Text('Services ', style: cardTitle),
+
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    SizedBox(
+                                      width: 200,
+                                      height: 200,
+                                      child: Column(
+                                        children: [
+                                          Text('Running new electrical wiring or network cables',style: cardCardHeader,),
+                                          RichText(
+                                            text: TextSpan(
+                                              text: 'QAR 25 - 56 ',
+                                              style: cardTitle,
+                                              children:  <TextSpan>[
+                                                TextSpan(text: 'Per Job 1 Hour/Visit', style: cardBody),
+                                              ],
+                                            ),
+                                          )
+
+                                        ],
+                                      ),
+                                    ),
+                                    Column(
+                                      children: [
+                                        Container(
+                                          width: 100,
+                                          height: 32,
+                                          decoration:  BoxDecoration(
+                                              color: Colors.white,
+                                              border: Border.all(
+                                                  width: 1,
+                                                  color: Colors.grey.shade300
+                                              ),
+                                              borderRadius: const BorderRadius.all(Radius.circular(8))
+                                          ),
+                                          child: const Center(child: Text('Add',style: normalBtnBlack,)),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  flex: 1,
+                                  child:
+                                  Text('Requested Type', style: cardHeader),
+                                ),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(': jdfghdgvf',
+                                      style: cardBody),
+                                )
+                              ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text('Service Requested',
+                                        style: cardHeader)),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(
+                                      ': dfvgadnvb',
+                                      style: cardBody),
+                                )
+                              ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text('Client Status',
+                                        style: cardHeader)),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(': s;fbg;kb',
+                                      style: cardBody),
+                                )
+                              ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text('Provider Status',
+                                        style: cardHeader)),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(': af vbnb',
+                                      style: cardBody),
+                                )
+                              ]),
+                        ),
+                        // const DividerWidget(),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Text('Customer Details', style: cardTitle),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text(' Name', style: cardHeader)),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(': fsbb',
+                                      style: cardBody),
+                                )
+                              ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text('Address', style: cardHeader)),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(': lomfbvm',
+                                      style: cardBody),
+                                )
+                              ]),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, bottom: 16),
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    flex: 1,
+                                    child: Text('Contact Information',
+                                        style: cardHeader)),
+                                Expanded(
+                                  flex: 1,
+                                  child: Text(': davgdbvb',
+                                      style: cardBody),
+                                )
+                              ]),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () {
+                    Navigator.pop(context);
+                    // serviceDialog();
+                  },
+                  child: Container(
+                    width: double.infinity,
+                    height: 52,
+                    // decoration: BoxDecoration(gradient: primaryGradient),
+                    child: Center(
+                      child: Text("Process", style: normalBtn),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Positioned(
+            top: -70,
+            right: 0,
+            left: 0,
+            child: FloatingActionButton.small(
+                backgroundColor: Colors.white,
+                foregroundColor: Colors.black,
+                onPressed: () => Navigator.pop(context),
+                child: const Icon(Icons.close_rounded, color: primary)),
+          )
+        ]);
+      },
     );
   }
 }

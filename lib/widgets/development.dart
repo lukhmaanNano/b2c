@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-import '../stylee/CommonTextStyle.dart';
-import '../stylee/common Color.dart';
+import '../styles/CommonTextStyle.dart';
+import '../styles/common Color.dart';
 
 class Development extends StatelessWidget {
   const Development({Key? key}) : super(key: key);

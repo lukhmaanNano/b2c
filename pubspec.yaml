@@ -1,0 +1,131 @@
+name: b2c
+description: A b2c Flutter project.
+# The following line prevents the package from being accidentally published to
+# pub.dev using `flutter pub publish`. This is preferred for private packages.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.19.4 <3.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+
+
+  cupertino_icons: ^1.0.2
+  floating_bottom_navigation_bar: ^1.5.2
+  flutter_svg: ^2.0.0+1
+  intl_phone_field: ^3.1.0
+  intl_phone_number_input: ^0.7.3+1
+  google_fonts: ^4.0.3
+  page_transition: ^2.0.9
+  shimmer: ^2.0.0
+  pinput: ^2.2.31
+  lottie: ^2.3.1
+  intl: ^0.18.0
+  animated_text_kit: ^4.2.2
+  get: ^4.6.5
+  get_storage: ^2.1.1
+  carousel_slider: ^4.2.1
+  curved_navigation_bar: ^1.0.3
+  google_maps_flutter: ^2.2.6
+  salomon_bottom_bar: ^3.3.2
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+  flutter_lints: ^2.0.0
+
+
+flutter:
+
+
+  uses-material-design: true
+
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - Assets/img1.png
+    - Assets/img2.png
+    - Assets/img3.png
+    - Assets/img4.png
+    - Assets/img5.png
+    - Assets/img6.png
+    - Assets/img7.png
+    - Assets/img8.png
+    - Assets/menu.svg
+    - Assets/booking.svg
+    - Assets/home.svg
+    - Assets/maids.svg
+    - Assets/profile.svg
+    - Assets/b2clogo.png
+    - Assets/fb.png
+    - Assets/google.png
+    - Assets/shape.png
+    - Assets/US.png
+    - Assets/Dubai.png
+    - Assets/OTPScreen.png
+    - Assets/offer.png
+    - Assets/ac.jpg
+    - Assets/cleaning.jpg
+    - Assets/electrical.jpg
+    - Assets/furniture.jpg
+    - Assets/painting.jpg
+    - Assets/Image1.png
+    - Assets/Image2.png
+    - Assets/Image3.png
+    - Assets/Image4.png
+    - Assets/json/otp.json
+    - Assets/json/offer.json
+    - Assets/json/develop.json
+    - Assets/offer.png
+    - Assets/ac.jpg
+    - Assets/acDark.png
+    - Assets/cleaningDark.png
+    - Assets/electricDark.png
+    - Assets/paintingDark.png
+    - Assets/plumbingDark.png
+    - Assets/cleaning.jpg
+    - Assets/electrical.jpg
+    - Assets/furniture.jpg
+    - Assets/painting.jpg
+    - Assets/clientlogo.png
+    - Assets/logoLightTheme.png
+    - Assets/plumbing.png
+    - Assets/cleaning.png
+    - Assets/painting.png
+    - Assets/ac.png
+    - Assets/electric.png
+    - Assets/admin.png
+
+  # An image asset can refer to one or more resolution-specific "variants", see
+  # https://flutter.dev/assets-and-images/#resolution-aware
+
+  # For details regarding adding assets from package dependencies, see
+  # https://flutter.dev/assets-and-images/#from-packages
+
+  # To add custom fonts to your application, add a fonts section here,
+  # in this "flutter" section. Each entry in this list should have a
+  # "family" key with the font family name, and a "fonts" key with a
+  # list giving the asset and other descriptors for the font. For
+  # example:
+  # fonts:
+  #   - family: Schyler
+  #     fonts:
+  #       - asset: fonts/Schyler-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
+  # For details regarding fonts from package dependencies,
+  # see https://flutter.dev/custom-fonts/#from-packages
