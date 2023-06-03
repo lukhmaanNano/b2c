@@ -51,26 +51,26 @@ class _DashboardState extends State<Dashboard> {
     'Lighting',
   ];
 
-  Object routing(String val) {
-    switch (val) {
-      case 'Plumbing':
-        {
-          return pageNavigator(const PlumbingMain());
-        }
-      case 'Air Conditioner':
-        {
-          return pageNavigator(const AirConditioner());
-        }
-      case 'Electrical Work':
-        {
-          return pageNavigator(const ElectricalWork());
-        }
-      default:
-        {
-          return pageNavigator(const Development());
-        }
-    }
-  }
+  // Object routing(String val) {
+  //   switch (val) {
+  //     case 'Plumbing':
+  //       {
+  //         return pageNavigator(const PlumbingMain());
+  //       }
+  //     case 'Air Conditioner':
+  //       {
+  //         return pageNavigator(const AirConditioner());
+  //       }
+  //     case 'Electrical Work':
+  //       {
+  //         return pageNavigator(const ElectricalWork());
+  //       }
+  //     default:
+  //       {
+  //         return pageNavigator(const Development());
+  //       }
+  //   }
+  // }
 
   Future pageNavigator(val) {
     return Navigator.push(
@@ -114,12 +114,12 @@ class _DashboardState extends State<Dashboard> {
                                     bottomSheet = !bottomSheet;
                                     locationSheet(context);
                                   },
-                                  child: const Column(
+                                  child:  Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        children: [
+                                        children: const [
                                           Icon(
                                             Icons.location_on,
                                             color: Colors.white,
@@ -134,7 +134,7 @@ class _DashboardState extends State<Dashboard> {
                                         ],
                                       ),
                                       Row(
-                                        children: [
+                                        children: const [
                                           Padding(
                                             padding: EdgeInsets.only(left: 5.0),
                                             child: Text('Nanosoft',
@@ -161,7 +161,7 @@ class _DashboardState extends State<Dashboard> {
                                     ],
                                   ),
                                 ),
-                                const Row(
+                                 Row(
                                   children: [
                                     Icon(
                                       Icons.notifications_active_rounded,
@@ -328,11 +328,11 @@ class _DashboardState extends State<Dashboard> {
                 ),
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
+             Padding(
+              padding: const EdgeInsets.only(top: 8.0, left: 8.0, right: 8.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
+                children: const [
                   Text('Book Your Home Service', style: cardTitle),
                   Text('See All', style: moreText),
                 ],
@@ -354,7 +354,7 @@ class _DashboardState extends State<Dashboard> {
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () {
-                            routing(data[index]['Name']);
+                            // routing(data[index]['Name']);
                           },
                           child: Card(
                               shape: RoundedRectangleBorder(
@@ -588,15 +588,15 @@ class _DashboardState extends State<Dashboard> {
                 style: headerText,
               ),
             ),
-            const SizedBox(
+             SizedBox(
               height: 190,
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 13.0),
+                padding: const EdgeInsets.symmetric(horizontal: 13.0),
                 child: Row(
                   children: [
                     Column(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                        children: const [
                           Icon(Icons.gps_fixed_rounded, color: primary),
                           Icon(Icons.location_on_rounded, color: primary),
                           Icon(Icons.location_on_rounded, color: primary),

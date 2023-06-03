@@ -4,7 +4,7 @@ Widget dividerWidget(Color val) {
   return Divider(
     thickness: 0.4,
     color: val,
-    indent: 13,
-    endIndent: 13,
+    indent: 0,
+    endIndent: 0,
   );
 }

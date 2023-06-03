@@ -36,7 +36,7 @@ class ThemeColors {
         color: primary,
       )),
     ),
-    listTileTheme: const ListTileThemeData(
+    listTileTheme:  ListTileThemeData(
       iconColor: primaryColor,
       titleTextStyle: TextStyle(
           fontSize: 13,

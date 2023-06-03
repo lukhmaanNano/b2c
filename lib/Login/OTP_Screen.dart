@@ -29,7 +29,7 @@ class _OtpScreenState extends State<OtpScreen> {
               height: 50,
             ),
             const SizedBox(
-                width: 260,
+                width: double.infinity,
                 child: Padding(
                   padding: EdgeInsets.symmetric(vertical: 10.0),
                   child: Text(
@@ -66,7 +66,6 @@ class _OtpScreenState extends State<OtpScreen> {
               child: buttonContainer(
                   "Login", const HomeScreen(), primary),
             ),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

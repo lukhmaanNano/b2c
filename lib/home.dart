@@ -1,11 +1,15 @@
+import "dart:convert";
+
 import "package:b2c/Controller/themeService.dart";
 import "package:b2c/Screens/Electrical%20Work/ElectricalWork.dart";
 import "package:b2c/Screens/Plumbing/PlumbingMain.dart";
+import "package:b2c/Services/serviceApi.dart";
 import "package:b2c/mapScreen/ManualLoction.dart";
 import "package:b2c/mapScreen/currentLoction.dart";
 import "package:b2c/styles/CommonSize.dart";
 import "package:b2c/styles/CommonTextStyle.dart";
 import "package:b2c/styles/common%20Color.dart";
+import "package:b2c/widgets/Shimmer.dart";
 import "package:b2c/widgets/development.dart";
 import "package:carousel_slider/carousel_slider.dart";
 import "package:curved_navigation_bar/curved_navigation_bar.dart";
@@ -13,6 +17,10 @@ import "package:flutter/material.dart";
 import "package:flutter_svg/svg.dart";
 import "package:get/get.dart";
 import "package:salomon_bottom_bar/salomon_bottom_bar.dart";
+
+import "Services/subServiceApi.dart";
+
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -22,6 +30,60 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final ServiceSelectApi _serviceSelectApi = Get.find<ServiceSelectApi>();
+  final SubServiceApi _subServiceApi = Get.find<SubServiceApi>();
+
+  List serviceData = [] ,countData = [];
+
+  @override
+  void initState() {
+  serviceFun();
+  print('intState');
+  }
+
+
+
+  serviceFun() async {
+    final response = await _serviceSelectApi.serviceApi(context);
+     if(response.statusCode == 200) {
+      final json = jsonDecode(response.body);
+      final data = (json['Output']['data']);;
+      print('data in Home$data');
+      setState(() {
+        serviceData = data;
+      });
+      print('serviceData$serviceData');
+     }
+
+  }
+
+  Object? routingFun(String val,int id) {
+    print(val);
+    switch (val) {
+      case 'ELECTRICAL SERVICE':
+        {
+          return Get.to( ElectricalWork(mainServiceIDPK:id));
+        }
+        default:
+          {
+            return Get.to( ElectricalWork(mainServiceIDPK:id));
+          }
+
+    }
+
+    // if (serviceData[index]['BTCMainServServiceName'] == 'ELECTRICAL SERVICE') {
+    //   Get.to(const ElectricalWork());
+    // } else if (data[index]['id'] == '2') {
+    //   Get.to(const Development());
+    // } else if (serviceData[index]['BTCMainServServiceName'] == '3') {
+    //   Get.to(const PlumbingMain());
+    // } else if (data[index]['id'] == '4') {
+    //   Get.to(const Development());
+    // } else {
+    //   Get.to(const Development());
+    // }
+  }
+
   int _index = 2;
   List data = [
     {"id": "1", "img1": "Assets/plumbing.png"},
@@ -57,13 +119,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         const Icon(
                           Icons.location_on,
-                          size: 30,
+                          size: 25,
                         ),
                         Text('Doha,Qatar',
                             style: Theme.of(context).textTheme.displaySmall),
                         const Icon(
                           Icons.keyboard_arrow_down,
-                          size: 30,
+                          size: 25,
                         ),
                       ],
                     ),
@@ -78,85 +140,78 @@ class _HomeScreenState extends State<HomeScreen> {
                               Get.isDarkMode
                                   ? Icons.light_mode
                                   : Icons.light_mode_outlined,
-                              size: 30)),
+                              size: 25)),
                       IconButton(
                           onPressed: () {},
                           icon: const Icon(
                             Icons.notifications,
-                            size: 30,
+                            size: 25,
                           ))
                     ],
                   )
                 ],
               ),
             ),
-            Column(
-              children: [
-                const CircleAvatar(
-                  backgroundColor: primary,
-                  radius: 60,
-                  child: CircleAvatar(
-                    radius: 55,
-                    backgroundImage: AssetImage("Assets/admin.png"),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: Text("Mohammed Lukhmaan",
-                      style: Theme.of(context).textTheme.displayMedium),
-                ),
-                Text('Sun. Jan 28 | 07:32 AM',
-                    style: Theme.of(context).textTheme.headlineSmall),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: SizedBox(
-                    child: Get.isDarkMode
-                        ? Image.asset('Assets/logoLightTheme.png')
-                        : Image.asset('Assets/clientlogo.png'),
-                  ),
-                ),
-                Text(
-                  "Our Services",
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-              ],
-            ),
-            SizedBox(
-              child: CarouselSlider.builder(
-                itemCount: data.length,
-                options: CarouselOptions(
-                    // aspectRatio : 5,
-                    viewportFraction: 0.4,
-                    enableInfiniteScroll: true,
-                    enlargeCenterPage: true,
-                    enlargeFactor: 0.5,
-                    enlargeStrategy: CenterPageEnlargeStrategy.zoom),
-                itemBuilder: (context, index, realIndex) {
-                  return InkWell(
-                    onTap: () {
-                      if (data[index]['id'] == '1') {
-                        Get.to(const PlumbingMain());
-                      } else if (data[index]['id'] == '2') {
-                        Get.to(const Development());
-                      } else if (data[index]['id'] == '3') {
-                        Get.to(const ElectricalWork());
-                      } else if (data[index]['id'] == '4') {
-                        Get.to(const Development());
-                      } else {
-                        Get.to(const Development());
-                      }
-                    },
-                    child: Container(
-                        margin: const EdgeInsets.all(1),
-                        height: 200,
-                        child: Image.asset(
-                          Get.isDarkMode
-                              ? dataDark[index]['img1']
-                              : data[index]['img1'],
-                        )),
-                  );
-                },
+            const CircleAvatar(
+              backgroundColor: primary,
+              radius: 50,
+              child: CircleAvatar(
+                radius: 45,
+                backgroundImage: AssetImage("Assets/admin.png"),
               ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: Text("Mohammed Lukhmaan",
+                  style: Theme.of(context).textTheme.displayMedium),
+            ),
+            Text('Sun. Jan 28 | 07:32 AM',
+                style: Theme.of(context).textTheme.headlineSmall),
+            SizedBox(
+              child: Get.isDarkMode
+                  ? Image.asset('Assets/logoLightTheme.png')
+                  : Image.asset('Assets/clientlogo.png'),
+            ),
+            Text(
+              "Our Services",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            CarouselSlider.builder(
+              itemCount: serviceData.length,
+              options: CarouselOptions(
+                  // aspectRatio : 5,
+                  viewportFraction: 0.4,
+                  enableInfiniteScroll: true,
+                  enlargeCenterPage: true,
+                  enlargeFactor: 0.5,
+                  enlargeStrategy: CenterPageEnlargeStrategy.zoom),
+              itemBuilder: (context, index, realIndex) {
+                return InkWell(
+                  onTap: () {
+                    _subServiceApi.subServiceApi(context,serviceData[index]['BTCMainServiceIDPK']);
+                    routingFun( serviceData[index]['BTCMainServServiceName'],serviceData[index]['BTCMainServiceIDPK']);
+
+                  },
+                  child: Container(
+                      margin: const EdgeInsets.all(1),
+                      height: displayHeight(context) * 0.3,
+                      child:  serviceData.isEmpty ? shimmer(200) :  serviceData[index]['FilePath'] != null ?
+                      Image.network(serviceData[index]['FilePath'])
+                          : CircleAvatar(
+                        backgroundColor: primary,
+                        radius: 70,
+                        child: Center(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                            child: Text(
+                              serviceData[index]['BTCMainServServiceName'],style:caroselTxt,
+                            ),
+                          )
+                        ),
+                      )
+                  ),
+                );
+              },
             ),
             FilledButton(
                 onPressed: () {},
@@ -412,9 +467,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 13.0),
                     child: Row(
                       children: [
-                        const Column(
+                         Column(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
+                            children: const [
                               Icon(Icons.location_on_rounded),
                               Icon(Icons.location_on_rounded),
                               Icon(Icons.location_on_rounded),

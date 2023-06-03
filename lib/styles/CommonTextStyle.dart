@@ -75,14 +75,16 @@ BoxDecoration commonShadow =
   )
 ]);
 
-BoxDecoration darkShadow = const BoxDecoration(color: primary, boxShadow: [
-  BoxShadow(
-    offset: Offset(2, 6),
-    spreadRadius: 1,
-    blurRadius: 30,
-    color: Color(0xE4155865),
-  )
-]);
+BoxDecoration darkShadow = const BoxDecoration(
+    color: primary ,
+    boxShadow: [
+      BoxShadow(
+        offset: Offset(2, 6),
+        spreadRadius: 1,
+        blurRadius: 30,
+        color: Color(0xE4155865),
+      )
+    ]);
 
 RoundedRectangleBorder disableField =
     RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0));
@@ -300,3 +302,113 @@ TextStyle cardBody = GoogleFonts.poppins(
         overflow: TextOverflow.clip,
         fontWeight: FontWeight.w400,
         color: Colors.grey.shade600));
+
+TextStyle subTitleLight =  TextStyle(
+  fontSize: 10,
+  fontWeight: FontWeight.w400,
+  color: Colors.grey.shade600
+);
+
+TextStyle subTitleDark = const TextStyle(
+    fontSize: 12,
+    fontWeight: FontWeight.w400,
+    color: Colors.white,
+);
+
+
+TextStyle btmSheetHeadLight =  const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w500,
+    color: Colors.black
+);
+
+TextStyle btmSheetHeadLDark =  const TextStyle(
+    fontSize: 16,
+    fontWeight: FontWeight.w500,
+    color: Colors.white
+);
+
+TextStyle btmSheetTitleLight =  const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black
+);
+
+TextStyle btmSheetTitleDark =  const TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.black
+);
+
+TextStyle btmSheetRateHeadLight =  const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w500,
+    color: Colors.black
+);
+
+TextStyle btmSheetRateHeadDark =  const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.w500,
+    color: Colors.black
+);
+
+TextStyle expandLight =  GoogleFonts.inter(
+  textStyle: const TextStyle(
+      fontSize: 10,
+      fontWeight: FontWeight.w400,
+      color: Colors.black
+  )
+);
+
+TextStyle heading =  GoogleFonts.inter(
+    textStyle: const TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w400,
+        color: primary
+    )
+);
+
+
+TextStyle expandDark =  GoogleFonts.inter(
+    textStyle: const TextStyle(
+        fontSize: 10,
+        fontWeight: FontWeight.w400,
+        color: Colors.black
+    )
+);
+
+TextStyle caroselTxt = GoogleFonts.lato(
+    textStyle: const TextStyle(
+        fontSize: 16,
+         color: Colors.white,
+        fontWeight: FontWeight.w400,
+        overflow: TextOverflow.clip));
+
+TextStyle bannerTxt = GoogleFonts.lato(
+    textStyle: const TextStyle(
+        fontSize: 18,
+        color: Colors.white,
+        fontWeight: FontWeight.w600,
+        overflow: TextOverflow.clip));
+
+TextStyle bannerSubTxt = GoogleFonts.lato(
+    textStyle: const TextStyle(
+        fontSize: 14,
+        color: Colors.white,
+        fontWeight: FontWeight.w400,
+        overflow: TextOverflow.clip));
+
+TextStyle commonBill1 = GoogleFonts.lato(
+    textStyle:  const TextStyle(
+        fontSize: 13,
+        color: Colors.grey,
+        fontWeight: FontWeight.w400,
+        overflow: TextOverflow.clip));
+
+TextStyle commonBill2 = GoogleFonts.lato(
+    textStyle: const TextStyle(
+        fontSize: 17,
+        color: Colors.black,
+        fontWeight: FontWeight.w700,
+        overflow: TextOverflow.clip));
+

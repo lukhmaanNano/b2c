@@ -31,9 +31,12 @@ dependencies:
   get: ^4.6.5
   get_storage: ^2.1.1
   carousel_slider: ^4.2.1
+  shared_preferences: ^2.1.0
   curved_navigation_bar: ^1.0.3
   google_maps_flutter: ^2.2.6
   salomon_bottom_bar: ^3.3.2
+  flutter_rating_bar: ^4.0.1
+  percent_indicator: ^4.2.3
 
 
 dev_dependencies:
@@ -103,6 +106,13 @@ flutter:
     - Assets/ac.png
     - Assets/electric.png
     - Assets/admin.png
+    - Assets/cleaningDark.png
+    - Assets/electricDark.png
+    - Assets/paintingDark.png
+    - Assets/plumbingDark.png
+    - Assets/acDark.png
+    - Assets/logoLightTheme.png
+    - Assets/elecBanner.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

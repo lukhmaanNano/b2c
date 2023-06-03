@@ -1,13 +1,21 @@
+
 import 'package:b2c/Controller/themeService.dart';
+import 'package:b2c/Services/serviceApi.dart';
+import 'package:b2c/Services/subServiceApi.dart';
+import 'package:b2c/Services/subSubServiceApi.dart';
 import 'package:b2c/splashscreen.dart';
 import 'package:b2c/styles/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
+
 void main() async {
   await GetStorage.init();
   runApp(const MyApp());
+  Get.put(ServiceSelectApi());
+  Get.put(SubServiceApi());
+  Get.put(SubSubServiceApi());
 }
 
 class MyApp extends StatelessWidget {
